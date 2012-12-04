@@ -39,8 +39,11 @@ yamp.Select() creates parser that converts output of parser into something diffe
 
 #### Parameters
 
-*parser* Parser for expected element.
-*selector* Functor than takes single parameter and returns transformed value.
+*parser*:
+Parser for expected element.
+
+*selector*:
+Functor than takes single parameter and returns transformed value.
 
 #### Example
 
@@ -53,8 +56,11 @@ yamp.Then() creates parser that match first element, then second. Parameter 'sec
 
 #### Parameters
 
-*first*: First parser.
-*second*: Functor that concats output of the first parser and returns second parser.
+*first*: 
+First parser.
+
+*second*: 
+Functor that concats output of the first parser and returns second parser.
 
 #### Example
 
