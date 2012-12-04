@@ -1,0 +1,19 @@
+<html>
+	<script src="yamp.js"></script>
+	<script>
+		var parser = yamp.Char('a');
+		var result = yamp.Parse(parser, 'a');
+
+		console.assert('a' == result, 'Incorrect');
+
+		parser = yamp.Text(yamp.String('str'));
+		result = yamp.Parse(parser, 'str');
+
+		console.assert('str' == result, 'Incorrect');
+
+		parser = yamp.Decimal();
+
+		var result = parser.Parse('123');
+		console.assert(result == '123', 'Incorrect');
+	</script>
+</html>

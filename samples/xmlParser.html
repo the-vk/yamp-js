@@ -1,0 +1,69 @@
+<html>
+	<script src="yamp.js"></script>
+	<script>
+		var identifier = yamp.Letter().Once().Then(function(first) {
+			return yamp.LetterOrDigit()
+				.XOr(yamp.Char('-'))
+				.XOr(yamp.Char('_'))
+				.Many()
+				.Select(function(rest) {
+					return first.concat(rest).join("");
+				});
+		});
+
+		function Tag(content) {
+			return yamp.SelectMany([
+				yamp.Char('<'),
+				content,
+				yamp.Char('>').Token()
+			], function(lt, t, gt) {return t});
+		};
+
+		var beginTag = Tag(identifier);
+
+		function EndTag(name) {
+			return Tag(
+				yamp.SelectMany([
+						yamp.Char('/'),
+						identifier.Where(function(id) {return id == name})
+					], function(slash, id) {return id})
+				.Named('closing tag for ' + name)
+			);
+		};
+
+		var content = yamp.CharExcept('<').Many().Select(function(chars) {
+			return {Text: chars.join('')};
+		});
+
+		var fullNode = beginTag.Then(function(tag) {
+			return item.Many().Then(function(nodes) {
+				return EndTag(tag).Select(function() {return {nodes: nodes, tag: tag};});
+			});
+		}).Select(function(data) {return {Name: data.tag, Children: data.nodes};});
+
+		var shortNode = Tag(
+			yamp.SelectMany([
+				identifier,
+				yamp.Char('/')
+				], function(id, slash) {return {Name: id}})
+		);
+
+		var node = shortNode.Or(fullNode);
+
+		var item = node.XOr(content);
+
+		var doc = yamp.SelectMany([
+			yamp.Whitespace().Many(),
+			node.Select(function(n) {return {Root: n}}).End()
+			], 
+			function(leading, doc) {
+				return doc;
+			});
+
+			result = doc.Parse('<body><test/></body>');
+
+		result = doc.Parse('<body><p>hello,<br/> <i>world!</i></p></body>');
+		var a = 0;
+
+		</script>
+</html>
