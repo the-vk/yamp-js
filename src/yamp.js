@@ -20,6 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+goog.provide('yamp');
+
 yamp = (function () {
 	function Input(source, position, line, column) {
 		line = line || 1;
@@ -225,6 +227,14 @@ yamp = (function () {
 		CharExcept: function(c) {
 			return yamp.CharExceptPredicate(function (i) {return i == c;}, c);
 		},
+
+		/**
+		 * Parse any character.
+		 * @return {Parser} Parser.
+		 */
+		AnyChar: function() {
+			return yamp.CharPredicate(function (c) { return true; }, 'any character');
+		}
 
 		/**
 		 * Parser that matches single character that is any letter.
