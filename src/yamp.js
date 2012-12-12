@@ -145,7 +145,7 @@ yamp = (function () {
 	};
 
 	Parser.prototype.Except = function(except) {
-		return yamp.Except(this, expect);
+		return yamp.Except(this, except);
 	};
 
 	Parser.prototype.Until = function(until) {
@@ -234,7 +234,7 @@ yamp = (function () {
 		 */
 		AnyChar: function() {
 			return yamp.CharPredicate(function (c) { return true; }, 'any character');
-		}
+		},
 
 		/**
 		 * Parser that matches single character that is any letter.
