@@ -271,6 +271,7 @@ yamp = (function () {
 
 		Decimal: function() {
 			return yamp.SelectMany([
+					yamp.Char('-').Many(),
 					yamp.Number(),
 					yamp.XOr(
 						yamp.Then(yamp.Char('.'), function(point) {
@@ -280,8 +281,10 @@ yamp = (function () {
 						}),
 						yamp.Return('')
 					)
-				], function(integral, fraction) {
-					return integral + fraction;
+				], function(sign, integral, fraction) {
+					var v = integral + fraction;
+					if (sign.length != 0) v = -v;
+					return v;
 				});
 		},
 
